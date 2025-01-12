@@ -11,7 +11,6 @@ export default function CharacterList() {
   const [isOpen, setIsOpen] = useState(false);
   const [characterInfo, setCharacterInfo] = useState({});
 
-  // Виконуємо запит лише один раз при завантаженні компонента
   useEffect(() => {
     axios
       .get('https://rickandmortyapi.com/api/character')
@@ -21,7 +20,7 @@ export default function CharacterList() {
       .catch((error) => {
         console.error('Error fetching characters:', error);
       });
-  }, []); // Додано порожній масив залежностей
+  }, []);
 
   const getCharacterInfo = (id) => {
     axios
@@ -44,7 +43,7 @@ export default function CharacterList() {
           name={character.name}
           species={character.species}
           img={character.image}
-          onClick={() => getCharacterInfo(character.id)} // Передаємо функцію
+          onClick={() => getCharacterInfo(character.id)}
         />
       ))}
 
@@ -53,15 +52,21 @@ export default function CharacterList() {
         onRequestClose={() => setIsOpen(false)}
         style={{
           overlay: { backgroundColor: 'rgba(0, 0, 0, 0.75)' },
-          content: { color: 'lightsteelblue' },
+          content: { inset: '10%', padding: 0, display: 'flex', flexDirection: 'row' },
         }}
       >
-        <h2>{characterInfo.name}</h2>
-        <p>Species: {characterInfo.species}</p>
-        <p>Status: {characterInfo.status}</p>
-        <p>Gender: {characterInfo.gender}</p>
-        <img src={characterInfo.image} alt={characterInfo.name} />
-        <button onClick={() => setIsOpen(false)}>Закрити</button>
+        <div className="modal-content">
+          <img src={characterInfo.image} alt={characterInfo.name} className="modal-image" />
+          <div className="modal-text">
+            <button className="close-button" onClick={() => setIsOpen(false)}>
+              &times;
+            </button>
+            <h2>{characterInfo.name}</h2>
+            <p>Species: {characterInfo.species}</p>
+            <p>Status: {characterInfo.status}</p>
+            <p>Gender: {characterInfo.gender}</p>
+          </div>
+        </div>
       </Modal>
     </div>
   );
