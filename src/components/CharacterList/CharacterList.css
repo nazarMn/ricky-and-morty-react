@@ -1,66 +1,38 @@
-.character-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-  
-  .modal-content {
-    display: flex;
-    padding-left: 30px;
-    flex-direction: row;
-    align-items: center;
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    overflow: hidden;
-    width: 100%;
-  }
-  
-  .modal-image {
-    flex: 1;
-    max-width: 40%;
-    object-fit: cover;
-    border-right: 2px solid #34495e;
-    border-radius: 18px;
-  }
-  
-  .modal-text {
-    flex: 2;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .modal-text h2 {
-    font-size: 24px;
-    margin: 0;
-  }
-  
-  .modal-text p {
-    margin: 0;
-    font-size: 16px;
-  }
-  
-  .close-button {
-    position: absolute;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    top: -15px;
-    right: 0px;
-    background: none;
-    border: none;
-    color: #ecf0f1;
-    font-size: 38px;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  
-  .close-button:hover {
-    color: #e74c3c;
-  }
-  
-  .character-list-container {
+nav {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid #333333;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 8px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+nav a:hover {
+  background-color: #333333;
+}
+
+nav a.active {
+  background-color: #555555; 
+}
+
+.character-list-container {
   padding: 20px;
+  background-color: #121212; 
+  color: #ffffff; 
 }
 
 .character-list {
@@ -81,8 +53,8 @@
 .pagination button {
   padding: 8px 15px;
   font-size: 16px;
-  background-color: #3498db;
-  color: white;
+  background-color: #333333; 
+  color: #ffffff; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -90,15 +62,103 @@
 }
 
 .pagination button:hover {
-  background-color: #2980b9;
+  background-color: #555555; 
 }
 
 .pagination button:disabled {
-  background-color: #bdc3c7;
+  background-color: #1f1f1f; 
   cursor: not-allowed;
 }
 
 .pagination span {
   font-size: 16px;
-  color: #333;
+  color: #ffffff;
+}
+
+.character {
+  background-color: #1f1f1f;
+  border: 1px solid #333333; 
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); 
+  width: 300px;
+  margin: 20px;
+  text-align: center;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.character:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.7);
+}
+
+.character img {
+  width: 100%;
+  height: auto;
+  border-bottom: 1px solid #333333; 
+}
+
+.character h1 {
+  font-size: 1.5rem;
+  color: #ffffff; 
+  margin: 10px 0;
+}
+
+.character p {
+  font-size: 1rem;
+  color: #cccccc; 
+  margin: 0 0 15px;
+}
+
+.modal-content {
+  display: flex;
+  padding-left: 30px;
+  flex-direction: row;
+  align-items: center;
+  background-color: #1f1f1f; 
+  color: #ffffff;
+  overflow: hidden;
+  width: 100%;
+}
+
+.modal-image {
+  flex: 1;
+  max-width: 40%;
+  object-fit: cover;
+  border-right: 2px solid #333333;
+  border-radius: 18px;
+}
+
+.modal-text {
+  flex: 2;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-text h2 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.modal-text p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.close-button {
+  position: absolute;
+  top: -15px;
+  right: 0px;
+  background: none;
+  border: none;
+  color: #ffffff; 
+  font-size: 38px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.close-button:hover {
+  color: #e74c3c; 
 }

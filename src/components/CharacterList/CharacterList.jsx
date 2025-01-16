@@ -92,6 +92,10 @@ export default function CharacterList() {
             <p>Species: {characterInfo.species}</p>
             <p>Status: {characterInfo.status}</p>
             <p>Gender: {characterInfo.gender}</p>
+            <p>Origin: {characterInfo.origin.name}</p>
+            <p>Location: {characterInfo.location.name}</p>
+            <p>Episodes: {characterInfo.episode.length}</p>
+            <p>Created: {characterInfo.created}</p>
           </div>
         </div>
       </Modal>
