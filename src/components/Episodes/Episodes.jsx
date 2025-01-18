@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './Episodes.css';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSave } from '@fortawesome/free-solid-svg-icons';
 
 export default function Episodes() {
   const [episodes, setEpisodes] = useState([]);
@@ -29,6 +31,26 @@ export default function Episodes() {
     }
   };
 
+  const saveEpisodeToLocalStorage = (episode) => {
+    const savedEpisodes = JSON.parse(localStorage.getItem('savedEpisodes')) || [];
+    const isAlreadySaved = savedEpisodes.some((saved) => saved.id === episode.id);
+  
+    if (!isAlreadySaved) {
+      const episodeToSave = {
+        id: episode.id,
+        name: episode.name,
+        air_date: episode.air_date,
+        episode: episode.episode,
+      };
+      savedEpisodes.push(episodeToSave);
+      localStorage.setItem('savedEpisodes', JSON.stringify(savedEpisodes));
+      alert(`${episode.name} saved to Local Storage!`);
+    } else {
+      alert(`${episode.name} is already saved!`);
+    }
+  };
+  
+
   return (
     <div className="episodes-container">
       <h1>Episodes</h1>
@@ -38,6 +60,12 @@ export default function Episodes() {
             <h2>{episode.name}</h2>
             <p>Air Date: {episode.air_date}</p>
             <p>Episode: {episode.episode}</p>
+            <button 
+              className="save-episode-button" 
+              onClick={() => saveEpisodeToLocalStorage(episode)}
+            >
+              <FontAwesomeIcon icon={faSave} /> Save
+            </button>
           </li>
         ))}
       </ul>

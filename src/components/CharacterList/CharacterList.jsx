@@ -75,30 +75,35 @@ export default function CharacterList() {
       </div>
 
       <Modal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        style={{
-          overlay: { backgroundColor: 'rgba(0, 0, 0, 0.75)'},
-          content: { inset: '10%', padding: 0, display: 'flex', flexDirection: 'row', borderRadius: '18px' },
-        }}
-      >
-        <div className="modal-content">
-          <img src={characterInfo.image} alt={characterInfo.name} className="modal-image" />
-          <div className="modal-text">
-            <button className="close-button" onClick={() => setIsOpen(false)}>
-              &times;
-            </button>
-            <h2>{characterInfo.name}</h2>
-            <p>Species: {characterInfo.species}</p>
-            <p>Status: {characterInfo.status}</p>
-            <p>Gender: {characterInfo.gender}</p>
-            <p>Origin: {characterInfo.origin.name}</p>
-            <p>Location: {characterInfo.location.name}</p>
-            <p>Episodes: {characterInfo.episode.length}</p>
-            <p>Created: {characterInfo.created}</p>
-          </div>
-        </div>
-      </Modal>
+  isOpen={isOpen}
+  onRequestClose={() => setIsOpen(false)}
+  style={{
+    overlay: { backgroundColor: 'rgba(0, 0, 0, 0.75)' },
+    content: { inset: '10%', padding: 0, display: 'flex', flexDirection: 'row', borderRadius: '18px' },
+  }}
+>
+  {characterInfo ? (
+    <div className="modal-content">
+      <img src={characterInfo.image} alt={characterInfo.name} className="modal-image" />
+      <div className="modal-text">
+        <button className="close-button" onClick={() => setIsOpen(false)}>
+          &times;
+        </button>
+        <h2>{characterInfo.name}</h2>
+        <p>Species: {characterInfo.species}</p>
+        <p>Status: {characterInfo.status}</p>
+        <p>Gender: {characterInfo.gender}</p>
+        <p>Origin: {characterInfo.origin?.name || 'Unknown'}</p>
+        <p>Location: {characterInfo.location?.name || 'Unknown'}</p>
+        <p>Episodes: {characterInfo.episode?.length || 0}</p>
+        <p>Created: {characterInfo.created}</p>
+      </div>
+    </div>
+  ) : (
+    <p>Loading character details...</p>
+  )}
+</Modal>
+
     </div>
   );
 }
