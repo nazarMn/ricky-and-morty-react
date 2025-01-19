@@ -4,46 +4,84 @@
     box-sizing: border-box;
   }
   
-  .watchlist-container {
-    padding: 20px;
-    width: 100%;
-  }
-  
-  .watchlist-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #ffffff;
-  }
-  
+.watchlist-container * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  .watchlist-container p {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #888888; 
-  }
-  
-  /* Список Watch List */
-  .watchlist-container ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .watchlist-container li {
-    background-color: #2a2a2a; 
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s, background-color 0.3s;
-  }
-  
-  .watchlist-container li:hover {
-    transform: translateY(-5px);
-    background-color: #333333; 
-  }
-  
-  .watchlist-container li h2 {
-    font-size: 1.5rem;
-    color: #ffffff;
-  }
-  
+.watchlist-container {
+  padding: 20px;
+  width: 100%;
+}
+
+.watchlist-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.watchlist-container p {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #888888;
+}
+
+.watchlist-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.watchlist-item {
+  background-color: #2a2a2a;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s, background-color 0.3s;
+  position: relative;
+}
+
+.watchlist-item:hover {
+  transform: translateY(-5px);
+  background-color: #333333;
+}
+
+.watchlist-item h2 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.icon:hover {
+  color: #cccccc;
+}
+
+.icon.watched {
+  color: #ffc107; 
+}
+
+.icon.delete {
+  color: #f44336; 
+}
+
+.icon.delete:hover {
+  color: #d32f2f;
+}
