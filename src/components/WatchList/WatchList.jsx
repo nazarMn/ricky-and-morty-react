@@ -1,10 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
 import './WatchList.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export default function WatchList() {
   const [watchList, setWatchList] = useState([]);
+  const [episodes, setEpisodes] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [showPopup, setShowPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const popupRef = useRef();
+
+  const ITEMS_PER_PAGE = 4; 
 
   useEffect(() => {
     const savedEpisodes = JSON.parse(localStorage.getItem('savedEpisodes')) || [];
@@ -28,36 +38,146 @@ export default function WatchList() {
     updateLocalStorage(updatedList);
   };
 
+  const fetchEpisodes = async (query = '', nextPage = 1) => {
+    setLoading(true);
+    try {
+      const url = `https://rickandmortyapi.com/api/episode?page=${nextPage}`;
+      const { data } = await axios.get(url);
+
+      const filteredEpisodes = data.results.filter((episode) =>
+        episode.name.toLowerCase().includes(query.toLowerCase())
+      );
+
+      setEpisodes((prev) => (query ? filteredEpisodes : [...prev, ...data.results]));
+      if (!query) setPage(nextPage + 1);
+    } catch (error) {
+      console.error('Error fetching episodes:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!searchQuery.trim() && showPopup) fetchEpisodes('', 1);
+    else if (searchQuery.trim()) fetchEpisodes(searchQuery);
+  }, [searchQuery, showPopup]);
+
+  const addToWatchList = (episode) => {
+    if (watchList.find((item) => item.id === episode.id)) {
+      alert('Episode is already in your watchlist.');
+      return;
+    }
+    const newEpisode = { ...episode, watched: false };
+    const updatedList = [...watchList, newEpisode];
+    updateLocalStorage(updatedList);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowPopup(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Pagination logic
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const currentItems = watchList.slice(indexOfFirstItem, indexOfLastItem);
+
+  const totalPages = Math.ceil(watchList.length / ITEMS_PER_PAGE);
+
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
   return (
     <div className="watchlist-container">
       <h1>My Watch List</h1>
-      {watchList.length === 0 ? (
-        <p>Your watch list is empty!</p>
-      ) : (
-        <ul>
-          {watchList.map((item) => (
-            <li key={item.id} className="watchlist-item">
-              <div className="item-header">
-                <h2>{item.name}</h2>
-                <div className="button-group">
-                  <FontAwesomeIcon
-                    icon={item.watched ? faEye : faEyeSlash}
-                    className={`icon ${item.watched ? 'watched' : ''}`}
-                    onClick={() => markAsWatched(item.id)}
-                  />
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className="icon delete"
-                    onClick={() => deleteEpisode(item.id)}
-                  />
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search for episodes..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onClick={() => setShowPopup(true)}
+          className="search-input"
+        />
+        {showPopup && (
+          <div className="popup-container" ref={popupRef}>
+            {loading ? (
+              <p>Loading episodes...</p>
+            ) : episodes.length > 0 ? (
+              <ul className="popup-list">
+                {episodes.map((item) => (
+                  <li key={item.id} className="popup-item">
+                    <div>
+                      <h3>{item.name}</h3>
+                      <p>Air Date: {item.air_date}</p>
+                      <p>Episode: {item.episode}</p>
+                    </div>
+                    <button className="add-button" onClick={() => addToWatchList(item)}>
+                      <FontAwesomeIcon icon={faPlus} /> Add
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No episodes found</p>
+            )}
+          </div>
+        )}
+      </div>
+      {watchList.length > 0 && (
+        <div>
+          <h2>Your Watch List</h2>
+          <ul>
+            {currentItems.map((item) => (
+              <li key={item.id} className="watchlist-item">
+                <div className="item-header">
+                  <h2>{item.name}</h2>
+                  <div className="button-group">
+                    <FontAwesomeIcon
+                      icon={item.watched ? faEye : faEyeSlash}
+                      className={`icon ${item.watched ? 'watched' : ''}`}
+                      onClick={() => markAsWatched(item.id)}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      className="icon delete"
+                      onClick={() => deleteEpisode(item.id)}
+                    />
+                  </div>
                 </div>
-              </div>
-              <p>Air Date: {item.air_date}</p>
-              <p>Episode: {item.episode}</p>
-              <p>Status: {item.watched ? 'Watched' : 'Not Watched'}</p>
-            </li>
-          ))}
-        </ul>
+                <p>Air Date: {item.air_date}</p>
+                <p>Episode: {item.episode}</p>
+                <p>Status: {item.watched ? 'Watched' : 'Not Watched'}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="pagination-controls">
+            <button onClick={prevPage} disabled={currentPage === 1}>
+              Previous
+            </button>
+            <span>
+              Page {currentPage} of {totalPages}
+            </span>
+            <button onClick={nextPage} disabled={currentPage === totalPages}>
+              Next
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
