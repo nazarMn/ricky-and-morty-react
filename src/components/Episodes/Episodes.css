@@ -25,8 +25,8 @@
 }
 
 .episodes-container li {
-  background-color: #2a2a2a; 
-  width: calc(50% - 193px); 
+  background-color: #2a2a2a;
+  width: calc(50% - 40px); 
   padding: 15px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -47,7 +47,7 @@
 
 .episodes-container li p {
   font-size: 1rem;
-  color: #cccccc; 
+  color: #cccccc;
 }
 
 .save-episode-button {
@@ -72,7 +72,66 @@
 }
 
 
-.pagination span {
-  font-size: 1rem;
-  color: #ffffff;
+
+
+@media (max-width: 575.98px) {
+  .episodes-container ul {
+    
+    gap: 15px;
+  }
+
+  .episodes-container li {
+    width: 90%; 
+    margin: 0 auto; 
+  }
+
+  .episodes-container li h2 {
+    font-size: 1.2rem; 
+  }
+
+  .episodes-container li p {
+    font-size: 0.9rem; 
+  }
+
+  .save-episode-button {
+    font-size: 0.8rem; 
+  }
+  .nav-links li a {
+    font-size: 0.62rem;
+  }
+}
+
+
+@media (min-width: 576px) and (max-width: 1180.98px) {
+  .episodes-container li {
+    width: calc(100% - 40px);
+    margin: 0 auto;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+  .episodes-container li h2 {
+    font-size: 1.4rem;
+  }
+
+  .episodes-container li p {
+    font-size: 0.95rem;
+  }
+}
+
+
+@media (min-width: 1280px) {
+  .episodes-container li {
+    width: calc(33.33% - 30px); 
+  }
+
+  .episodes-container li h2 {
+    font-size: 1.6rem;
+  }
+
+  .episodes-container li p {
+    font-size: 1.1rem;
+  }
 }
