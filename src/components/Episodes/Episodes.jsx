@@ -3,6 +3,7 @@ import './Episodes.css';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons';
+import Pagination from '../Pagination/Pagination';
 
 export default function Episodes() {
   const [episodes, setEpisodes] = useState([]);
@@ -69,17 +70,11 @@ export default function Episodes() {
           </li>
         ))}
       </ul>
-      <div className="pagination">
-        <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }

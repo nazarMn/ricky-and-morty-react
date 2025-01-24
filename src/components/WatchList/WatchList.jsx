@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import './WatchList.css';
+import Pagination from '../Pagination/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -8,13 +9,12 @@ export default function WatchList() {
   const [watchList, setWatchList] = useState([]);
   const [episodes, setEpisodes] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1); 
   const [showPopup, setShowPopup] = useState(false);
   const [loading, setLoading] = useState(false);
   const popupRef = useRef();
 
-  const ITEMS_PER_PAGE = 4; 
+  const ITEMS_PER_PAGE = 4;
 
   useEffect(() => {
     const savedEpisodes = JSON.parse(localStorage.getItem('savedEpisodes')) || [];
@@ -38,18 +38,17 @@ export default function WatchList() {
     updateLocalStorage(updatedList);
   };
 
-  const fetchEpisodes = async (query = '', nextPage = 1) => {
+  const fetchEpisodes = async (query = '') => {
     setLoading(true);
     try {
-      const url = `https://rickandmortyapi.com/api/episode?page=${nextPage}`;
+      const url = `https://rickandmortyapi.com/api/episode?page=1`;
       const { data } = await axios.get(url);
 
       const filteredEpisodes = data.results.filter((episode) =>
         episode.name.toLowerCase().includes(query.toLowerCase())
       );
 
-      setEpisodes((prev) => (query ? filteredEpisodes : [...prev, ...data.results]));
-      if (!query) setPage(nextPage + 1);
+      setEpisodes(filteredEpisodes);
     } catch (error) {
       console.error('Error fetching episodes:', error);
     } finally {
@@ -58,8 +57,7 @@ export default function WatchList() {
   };
 
   useEffect(() => {
-    if (!searchQuery.trim() && showPopup) fetchEpisodes('', 1);
-    else if (searchQuery.trim()) fetchEpisodes(searchQuery);
+    if (searchQuery.trim() && showPopup) fetchEpisodes(searchQuery);
   }, [searchQuery, showPopup]);
 
   const addToWatchList = (episode) => {
@@ -83,23 +81,14 @@ export default function WatchList() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Pagination logic
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentItems = watchList.slice(indexOfFirstItem, indexOfLastItem);
 
   const totalPages = Math.ceil(watchList.length / ITEMS_PER_PAGE);
 
-  const nextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage((prev) => prev + 1);
-    }
-  };
-
-  const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prev) => prev - 1);
-    }
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
   };
 
   return (
@@ -166,17 +155,11 @@ export default function WatchList() {
               </li>
             ))}
           </ul>
-          <div className="pagination-controls">
-            <button onClick={prevPage} disabled={currentPage === 1}>
-              Previous
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button onClick={nextPage} disabled={currentPage === totalPages}>
-              Next
-            </button>
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         </div>
       )}
     </div>

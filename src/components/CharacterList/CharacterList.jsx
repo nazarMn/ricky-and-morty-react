@@ -3,6 +3,7 @@ import './CharacterList.css';
 import axios from 'axios';
 import Modal from 'react-modal';
 import Character from '../Character/Character';
+import Pagination from '../Pagination/Pagination';
 
 Modal.setAppElement('#root');
 
@@ -119,17 +120,11 @@ export default function CharacterList() {
         ))}
       </div>
 
-      <div className="pagination">
-        <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
 
       <Modal
         isOpen={isOpen}

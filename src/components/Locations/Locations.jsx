@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Locations.css';
 import axios from 'axios';
+import Pagination from '../Pagination/Pagination';
 
 export default function Locations() {
   const [locations, setLocations] = useState([]);
@@ -41,17 +42,11 @@ export default function Locations() {
           </li>
         ))}
       </ul>
-      <div className="pagination">
-        <button onClick={() => handlePageChange(page - 1)} disabled={page === 1}>
-          Previous
-        </button>
-        <span>
-          Page {page} of {totalPages}
-        </span>
-        <button onClick={() => handlePageChange(page + 1)} disabled={page === totalPages}>
-          Next
-        </button>
-      </div>
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
