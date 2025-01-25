@@ -1,56 +1,69 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  .locations-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-  
-  .locations-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #ffffff;
-  }
-  
-  .locations-container ul {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly; 
-    padding: 0;
-  }
-  
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+.locations-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.locations-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.locations-container ul {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 0;
+  gap: 20px; 
+}
+
+.locations-container li {
+  background-color: #2a2a2a;
+  flex: 1 1 calc(100% - 40px); 
+  margin: 10px;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.locations-container li:hover {
+  transform: translateY(-5px);
+  background-color: #333333;
+}
+
+.locations-container li h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.locations-container li p {
+  font-size: 1rem;
+  color: #cccccc;
+}
+
+
+@media (min-width: 600px) {
   .locations-container li {
-    background-color: #2a2a2a; 
-    width: calc(50% - 193px);
-    margin: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    transition: transform 0.3s, background-color 0.3s;
+    flex: 1 1 calc(50% - 40px); 
   }
-  
-  .locations-container li:hover {
-    transform: translateY(-5px);
-    background-color: #333333; 
+}
+
+
+@media (min-width: 1024px) {
+  .locations-container li {
+    flex: 1 1 calc(33.33% - 40px); 
   }
-  
-  .locations-container li h2 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    color: #ffffff;
-  }
-  
-  .locations-container li p {
-    font-size: 1rem;
-    color: #cccccc; 
-  }
-  
+}

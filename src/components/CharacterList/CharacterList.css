@@ -215,7 +215,8 @@ nav a.active {
 }
 @media  (max-width: 420px) {
   .filters select {
-    width: 85px;
+    width: 98px;
+    font-size: 13px;
   }
   .nav-links li a {
     font-size: 11px;
@@ -223,6 +224,12 @@ nav a.active {
   nav {
     padding: 0;
     padding-top: 8px;
+  }
+}
+@media  (max-width: 350px) {
+  .filters select {
+    width: 90px;
+    font-size: 11.5px;
   }
 }
 
